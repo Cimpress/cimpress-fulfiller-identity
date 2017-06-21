@@ -7,7 +7,7 @@ const AWSXRayMock = require("./aws_xray_mock");
 class FulfillerIdentityProxy {
 
   constructor(url, authenticator, xray) {
-    this.apiUrl = url;
+    this.apiUrl = url.replace(/https:\/\//, "");
     this.authenticator = authenticator ? authenticator : { getAuthorization: () => Promise.resolve() };
     this.xray = xray ? xray : AWSXRayMock;
   }
