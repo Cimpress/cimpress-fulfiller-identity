@@ -6,6 +6,8 @@ const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
 const FulfillerIdentityClient = require("../src/fulfiller_identity_client");
 const Fulfiller = require("../src/fulfiller");
+const FulfillerNotFoundError = require("../src/errors/fulfiller_not_found_error");
+
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
@@ -50,7 +52,9 @@ describe("Fulfiller Identity proxy", function () {
       .post('/v1/fulfillers')
       .reply(200)
       .put('/v1/fulfillers/9146d8ba-aa6e-43c8-90c1-091cb745f5f0')
-      .reply(200);
+      .reply(200)
+      .get('/v1/fulfillers/2131324134')
+      .reply(404);
 
     nock('https://dummy.fulfilleridentity.url')
       .get('/v1/fulfillers')
@@ -78,6 +82,11 @@ describe("Fulfiller Identity proxy", function () {
       testedObject = new FulfillerIdentityClient("Bearer e2bce1a36815415fac1674e645502547", { url: "dummy.fulfilleridentity.url" });
       return expect(testedObject.getFulfiller(19)).to.eventually.deep.equal(new Fulfiller("a3efe4wef", 19, "SomeName1", "dummy1@cimpress.com", "", "en-US"));
     });
+
+    it("indicates that fulfiller doesn't exist", function () {
+      testedObject = new FulfillerIdentityClient("Bearer e2bce1a36815415fac1674e645502547", { url: "dummy.fulfilleridentity.url" });
+      return expect(testedObject.getFulfiller(2131324134)).to.be.rejectedWith(FulfillerNotFoundError, "Fulfiller 2131324134 does not exits");
+  });
 
   });
 
