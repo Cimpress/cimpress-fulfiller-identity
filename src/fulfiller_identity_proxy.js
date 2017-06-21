@@ -29,7 +29,7 @@ class FulfillerIdentityProxy {
           let options = {
             method: method,
             headers: {
-              'Authorization': authorization
+              Authorization: authorization
             },
             json: true
           };
