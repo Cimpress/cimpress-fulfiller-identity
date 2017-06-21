@@ -19,7 +19,7 @@ class FulfillerIdentityClient {
     } else if (typeof authorization == "function") {
       this.authorizer = { getAuthorization: () => Promise.resolve(authorization()) };
     } else {
-      throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns promise");
+      throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
     let url = options.url || "fulfilleridentity.trdlnk.cimpress.io";
     this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, AWSXRay);
