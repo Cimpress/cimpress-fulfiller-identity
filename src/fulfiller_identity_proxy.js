@@ -4,10 +4,15 @@ const request = require("request");
 const rp = require("request-promise");
 const AWSXRayMock = require("./aws_xray_mock");
 
+const schemeRegex = /\w+:\/\//;
+
 class FulfillerIdentityProxy {
 
   constructor(url, authenticator, xray) {
-    this.apiUrl = url.replace(/https:\/\//, "");
+    if (schemeRegex.test(url)) {
+      throw new Error("The URL cannot contain a scheme.");
+    }
+    this.apiUrl = url;
     this.authenticator = authenticator ? authenticator : { getAuthorization: () => Promise.resolve() };
     this.xray = xray ? xray : AWSXRayMock;
   }
