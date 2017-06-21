@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require("request");
-const rp = require('request-promise');
+const rp = require("request-promise");
 const AWSXRayMock = require("./aws_xray_mock");
 
 class FulfillerIdentityProxy {
