@@ -1,0 +1,44 @@
+{
+  "name": "cimpress-fulfiller-identity",
+  "version": "0.0.1",
+  "description": "Thin client library for Cimpress' Fulfiller Identity service",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cimpress-MCP/cimpress-fulfiller-identity.git"
+  },
+  "keywords": [
+    "cimpress",
+    "fulfiller"
+  ],
+  "files": [
+    "src"
+  ],
+  "author": "Rafał Nowosielski <rafal@nowosielski.email>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Cimpress-MCP/cimpress-fulfiller-identity/issues"
+  },
+  "homepage": "https://github.com/Cimpress-MCP/cimpress-fulfiller-identity#readme",
+  "dependencies": {
+    "aws-xray-sdk": "^1.1.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-as-promised": "^7.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-istanbul": "^5.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "mock-require": "^2.0.2",
+    "nock": "^9.0.13",
+    "sinon": "^2.3.5"
+  }
+}
