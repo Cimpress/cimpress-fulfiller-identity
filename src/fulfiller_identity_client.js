@@ -16,9 +16,11 @@ if (process.env.xray === "true") {
 class FulfillerIdentityClient {
 
   constructor(authorization, options) {
-    if (typeof authorization == "string") {
+    if (typeof authorization === "undefined") {
+      this.authorizer = { getAuthorization: () => Promise.resolve("") };
+    } else if (typeof authorization === "string") {
       this.authorizer = { getAuthorization: () => Promise.resolve(authorization) };
-    } else if (typeof authorization == "function") {
+    } else if (typeof authorization === "function") {
       this.authorizer = { getAuthorization: () => Promise.resolve(authorization()) };
     } else {
       throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns a Promise");
@@ -28,7 +30,7 @@ class FulfillerIdentityClient {
   }
 
   getUrl() {
-    return fulfillerIdentityProxy.url;
+    return this.fulfillerIdentityProxy.url;
   }
 
   /**
