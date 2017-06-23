@@ -3,7 +3,7 @@
  */
 class Fulfiller {
 
-  constructor(fulfillerId, internalFulfillerId, name, email, phone, language) {
+  constructor(fulfillerId, internalFulfillerId, name, email, phone, language, links) {
     this._fulfillerId = fulfillerId;
     this._internalFulfillerId = internalFulfillerId;
     this._name = name;
@@ -11,6 +11,7 @@ class Fulfiller {
     this._phone = phone;
     this._language = language;
     this._archived = false;
+    this._links = links;
   }
 
   /**
@@ -108,6 +109,11 @@ class Fulfiller {
   set archived(value) {
     this._archived = value;
   }
+
+  getSecurityGroupUrl() {
+    return this._links && this._links.fulfillerCoamAdminGroup ? this._links.fulfillerCoamAdminGroup.href : null;
+  }
+
 
   toJSON() {
     return {

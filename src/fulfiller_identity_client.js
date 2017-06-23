@@ -25,7 +25,7 @@ class FulfillerIdentityClient {
     } else {
       throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
-    let url = options.url || "fulfilleridentity.trdlnk.cimpress.io";
+    let url = (options && options.url) ? options.url : "fulfilleridentity.trdlnk.cimpress.io";
     this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, AWSXRay);
   }
 
@@ -43,9 +43,9 @@ class FulfillerIdentityClient {
     let noCache = (options && options.noCache) || false;
 
     return this.fulfillerIdentityProxy.callFulfillerIdentity("GET").then(
-      (parsedBody) => parsedBody.map(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language)),
+      (parsedBody) => parsedBody.map(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links)),
       (err) => Promise.reject(new Error("Unable to get fulfillers: " + err.message))
-    )
+    );
   }
 
 /**
@@ -58,7 +58,7 @@ getFulfiller(fulfillerId, options)
   let noCache = (options && options.noCache) || false;
 
   return this.fulfillerIdentityProxy.callFulfillerIdentity("GET", { fulfillerId: fulfillerId }).then(
-    (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language),
+    (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links),
     (err) => (err.constructor.name === "StatusCodeError") ?
       Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
       Promise.reject(new Error("Unable to get fulfiller: " + err.message))
@@ -79,7 +79,7 @@ saveFulfiller(fulfiller)
       (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
   } else {
     return this.fulfillerIdentityProxy.callFulfillerIdentity("POST", { data: fulfiller }).then((f) => Promise.resolve(),
-      (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)))
+      (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
   }
 }
 
