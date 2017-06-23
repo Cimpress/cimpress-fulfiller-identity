@@ -1,6 +1,6 @@
 {
   "name": "cimpress-fulfiller-identity",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "src/index.js",
   "scripts": {
