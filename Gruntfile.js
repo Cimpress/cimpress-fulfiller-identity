@@ -44,6 +44,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('test', ['mocha_istanbul:coverage', 'istanbul_check_coverage']);
+  grunt.registerTask('test', ['jshint', 'mocha_istanbul:coverage', 'istanbul_check_coverage']);
 
 };
