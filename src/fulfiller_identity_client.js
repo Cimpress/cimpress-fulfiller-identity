@@ -48,40 +48,38 @@ class FulfillerIdentityClient {
     );
   }
 
-/**
- * Fetches the fulfiller based on the fulfiller id.
- * @param fulfillerId One of the fulfiller identifiers
- * @param options
- */
-getFulfiller(fulfillerId, options)
-{
-  let noCache = (options && options.noCache) || false;
+  /**
+   * Fetches the fulfiller based on the fulfiller id.
+   * @param fulfillerId One of the fulfiller identifiers
+   * @param options
+   */
+  getFulfiller(fulfillerId, options) {
+    let noCache = (options && options.noCache) || false;
 
-  return this.fulfillerIdentityProxy.callFulfillerIdentity("GET", { fulfillerId: fulfillerId }).then(
-    (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links),
-    (err) => (err.constructor.name === "StatusCodeError") ?
-      Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
-      Promise.reject(new Error("Unable to get fulfiller: " + err.message))
-  );
-}
-
-/**
- * Saves changes made to a fulfiller object.
- * @param fulfiller Fufiller object, either retrieved via getFulfiller or getFulfillers or using new Fulfiller statement
- */
-saveFulfiller(fulfiller)
-{
-  if (fulfiller.fulfillerId || fulfiller.internalFulfillerId) {
-    return this.fulfillerIdentityProxy.callFulfillerIdentity("PUT", {
-      fulfillerId: fulfiller.fulfillerId || fulfiller.internalFulfillerId,
-      data: fulfiller
-    }).then((f) => Promise.resolve(),
-      (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
-  } else {
-    return this.fulfillerIdentityProxy.callFulfillerIdentity("POST", { data: fulfiller }).then((f) => Promise.resolve(),
-      (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
+    return this.fulfillerIdentityProxy.callFulfillerIdentity("GET", { fulfillerId: fulfillerId }).then(
+      (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links),
+      (err) => (err.constructor.name === "StatusCodeError") ?
+        Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
+        Promise.reject(new Error("Unable to get fulfiller: " + err.message))
+    );
   }
-}
+
+  /**
+   * Saves changes made to a fulfiller object.
+   * @param fulfiller Fufiller object, either retrieved via getFulfiller or getFulfillers or using new Fulfiller statement
+   */
+  saveFulfiller(fulfiller) {
+    if (fulfiller.fulfillerId || fulfiller.internalFulfillerId) {
+      return this.fulfillerIdentityProxy.callFulfillerIdentity("PUT", {
+        fulfillerId: fulfiller.fulfillerId || fulfiller.internalFulfillerId,
+        data: fulfiller
+      }).then((f) => Promise.resolve(),
+        (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
+    } else {
+      return this.fulfillerIdentityProxy.callFulfillerIdentity("POST", { data: fulfiller }).then((f) => Promise.resolve(),
+        (err) => Promise.reject(new Error("Unable to update fulfiller: " + err.message)));
+    }
+  }
 
 }
 
