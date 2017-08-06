@@ -114,6 +114,9 @@ class Fulfiller {
     return this._links && this._links.fulfillerCoamAdminGroup ? this._links.fulfillerCoamAdminGroup.href : null;
   }
 
+  getLogoUrl() {
+    return this._links && this._links.fulfillerLogo ? this._links.fulfillerLogo.href : null;
+  }
 
   toJSON() {
     return {

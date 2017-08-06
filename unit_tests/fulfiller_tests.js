@@ -83,6 +83,33 @@ describe("Fulfiller object", function () {
 
   });
 
+  describe("handles link to logo", function () {
+
+    it("fulfillerId", function () {
+      testedObject = new Fulfiller("f621a65689ac", 1323123, "Test Fulfiller", "test@fulfiller.com", "555324412", "en-us", {
+        "self": {
+          "href": "https://dummy.url/v1/fulfillers/f621a65689ac",
+          "rel": "self"
+        },
+        "fulfillmentLocations": {
+          "href": "https://dummy.url/v1/fulfillmentlocations?fulfillerId=f621a65689ac",
+          "rel": "fulfillmentLocations"
+        },
+        "fulfillerCoamAdminGroup": {
+          "href": "https://dumy.security.url/groups/f621a65689ac",
+          "rel": "fulfillerCoamAdminGroup"
+        },
+        "fulfillerLogo": {
+          "href": "https://dummy.url/v1/fulfillers/f621a65689ac/logo",
+          "rel": "fulfillerLogo"
+        }
+      });
+
+      expect(testedObject.getLogoUrl()).to.equal("https://dummy.url/v1/fulfillers/f621a65689ac/logo");
+    });
+
+  });
+
   describe("serializes to JSON in a way that complies with the microservice", function () {
 
     it("archived", function () {
