@@ -5,7 +5,7 @@ const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
 let AWSXray = null;
 
 if (process.env.xray === "true") {
-  AWSXRay = require("aws-xray-sdk");
+  AWSXRay = require("aws-xray-sdk-core");
 } else {
   AWSXRay = require("./aws_xray_mock");
 }

@@ -1,6 +1,6 @@
 {
   "name": "cimpress-fulfiller-identity",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "src/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Cimpress-MCP/cimpress-fulfiller-identity#readme",
   "dependencies": {
-    "aws-xray-sdk": "^1.1.1",
+    "aws-xray-sdk-core": "1.1.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },
