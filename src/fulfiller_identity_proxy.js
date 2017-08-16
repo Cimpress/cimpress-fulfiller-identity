@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require("request");
-const rp = require("request-promise");
+const rp = require("request-promise-native");
 const AWSXRayMock = require("./aws_xray_mock");
 
 const schemeRegex = /\w+:\/\//;
@@ -35,6 +35,9 @@ class FulfillerIdentityProxy {
           };
           if (callOptions && callOptions.data) {
             options.body = callOptions.data;
+          }
+          if (callOptions && callOptions.fulfillerId) {
+            subsegment.addAnnotation("FulfillerId", callOptions.fulfillerId);
           }
           options.uri = (callOptions && callOptions.fulfillerId) ? `${self.url}/v1/fulfillers/${callOptions.fulfillerId}` : `${self.url}/v1/fulfillers`;
           rp(options)
