@@ -19,7 +19,7 @@ class FulfillerIdentityClient {
     if (typeof authorization === "undefined") {
       this.authorizer = { getAuthorization: () => Promise.resolve("") };
     } else if (typeof authorization === "string") {
-      this.authorizer = { getAuthorization: () => Promise.resolve(authorization) };
+      this.authorizer = { getAuthorization: () => Promise.resolve(authorization.startsWith('Bearer ') ? authorization : 'Bearer ' + authorization) };
     } else if (typeof authorization === "function") {
       this.authorizer = { getAuthorization: () => Promise.resolve(authorization()) };
     } else {
