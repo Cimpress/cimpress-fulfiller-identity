@@ -1,6 +1,5 @@
 'use strict';
 
-const request = require("request");
 const rp = require("request-promise-native");
 const AWSXRayMock = require("./aws_xray_mock");
 

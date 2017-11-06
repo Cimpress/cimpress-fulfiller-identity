@@ -2,13 +2,7 @@ const FulfillerIdentityProxy = require("./fulfiller_identity_proxy");
 const Fulfiller = require("./fulfiller");
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
 
-let AWSXray = null;
-
-if (process.env.xray === "true") {
-  AWSXRay = require("aws-xray-sdk-core");
-} else {
-  AWSXRay = require("./aws_xray_mock");
-}
+const AWSXRayMock = require("./aws_xray_mock");
 
 /**
  * The main class exposing client methods.
@@ -26,7 +20,8 @@ class FulfillerIdentityClient {
       throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
     let url = (options && options.url) ? options.url : "fulfilleridentity.trdlnk.cimpress.io";
-    this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, AWSXRay);
+    let awsXRay = (options && options.AWSXRay) ? options.AWSXRay : AWSXRayMock;
+    this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, awsXRay);
   }
 
   getUrl() {
