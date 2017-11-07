@@ -53,11 +53,9 @@ class FulfillerIdentityClient {
 
     return this.fulfillerIdentityProxy.callFulfillerIdentity("GET", { fulfillerId: fulfillerId }).then(
       (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links),
-      (err) => {
-        return (err.response && err.response.status === 404) ?
+      (err) => (err.response && err.response.status === 404) ?
               Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
-              Promise.reject(new Error("Unable to get fulfiller: " + err.message));
-      }
+              Promise.reject(new Error("Unable to get fulfiller: " + err.message))
     );
   }
 
