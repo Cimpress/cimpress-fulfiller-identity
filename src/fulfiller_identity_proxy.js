@@ -1,7 +1,6 @@
 'use strict';
 
-const request = require("request");
-const rp = require("request-promise-native");
+const axios = require('axios');
 const AWSXRayMock = require("./aws_xray_mock");
 
 const schemeRegex = /\w+:\/\//;
@@ -26,25 +25,30 @@ class FulfillerIdentityProxy {
     return new Promise((resolve, reject) => {
       self.xray.captureAsyncFunc('FulfillerIdentity.getFulfillerById', function (subsegment) {
         self.authenticator.getAuthorization().then((authorization) => {
+          const axiosInstance = axios.create({
+            baseURL: self.url,
+            timeout: 3000
+          });
           let options = {
             method: method,
             headers: {
-              Authorization: authorization
-            },
-            json: true
+              Authorization: authorization,
+              ContentType: 'application/json'
+            }
           };
           if (callOptions && callOptions.data) {
-            options.body = callOptions.data;
+            options.data = callOptions.data;
           }
           if (callOptions && callOptions.fulfillerId) {
             subsegment.addAnnotation("FulfillerId", callOptions.fulfillerId);
           }
-          options.uri = (callOptions && callOptions.fulfillerId) ? `${self.url}/v1/fulfillers/${callOptions.fulfillerId}` : `${self.url}/v1/fulfillers`;
-          rp(options)
-            .then(function (parsedBody) {
-              subsegment.addMetadata("response", parsedBody);
+          options.url = (callOptions && callOptions.fulfillerId) ? `/v1/fulfillers/${callOptions.fulfillerId}` : `/v1/fulfillers`;
+          axiosInstance
+            .request(options)
+            .then(function (res) {
+              subsegment.addMetadata("response", res.data);
               subsegment.close();
-              resolve(parsedBody);
+              resolve(res.data);
             })
             .catch(function (err) {
               subsegment.close(err);

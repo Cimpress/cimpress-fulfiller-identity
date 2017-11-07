@@ -2,13 +2,7 @@ const FulfillerIdentityProxy = require("./fulfiller_identity_proxy");
 const Fulfiller = require("./fulfiller");
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
 
-let AWSXray = null;
-
-if (process.env.xray === "true") {
-  AWSXRay = require("aws-xray-sdk-core");
-} else {
-  AWSXRay = require("./aws_xray_mock");
-}
+const AWSXRayMock = require('./aws_xray_mock');
 
 /**
  * The main class exposing client methods.
@@ -23,10 +17,11 @@ class FulfillerIdentityClient {
     } else if (typeof authorization === "function") {
       this.authorizer = { getAuthorization: () => Promise.resolve(authorization()) };
     } else {
-      throw new Error("Ther authorization should be either a string, a function that returns a string, or a function that returns a Promise");
+      throw new Error("The authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
     let url = (options && options.url) ? options.url : "fulfilleridentity.trdlnk.cimpress.io";
-    this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, AWSXRay);
+    let awsXRay = (options && options.AWSXRay) ? options.AWSXRay : AWSXRayMock;
+    this.fulfillerIdentityProxy = new FulfillerIdentityProxy(url, this.authorizer, awsXRay);
   }
 
   getUrl() {
@@ -58,9 +53,11 @@ class FulfillerIdentityClient {
 
     return this.fulfillerIdentityProxy.callFulfillerIdentity("GET", { fulfillerId: fulfillerId }).then(
       (f) => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links),
-      (err) => (err.constructor.name === "StatusCodeError") ?
-        Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
-        Promise.reject(new Error("Unable to get fulfiller: " + err.message))
+      (err) => {
+        return (err.response && err.response.status === 404) ?
+              Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`)) :
+              Promise.reject(new Error("Unable to get fulfiller: " + err.message));
+      }
     );
   }
 
