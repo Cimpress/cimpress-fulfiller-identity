@@ -25,11 +25,8 @@ class FulfillerIdentityProxy {
     return new Promise((resolve, reject) => {
       self.xray.captureAsyncFunc('FulfillerIdentity.getFulfillerById', function (subsegment) {
         self.authenticator.getAuthorization().then((authorization) => {
-          const axiosInstance = axios.create({
-            baseURL: self.url,
-            timeout: 3000
-          });
           let options = {
+            timeout: 3000,
             method: method,
             headers: {
               Authorization: authorization,
@@ -42,9 +39,8 @@ class FulfillerIdentityProxy {
           if (callOptions && callOptions.fulfillerId) {
             subsegment.addAnnotation("FulfillerId", callOptions.fulfillerId);
           }
-          options.url = (callOptions && callOptions.fulfillerId) ? `/v1/fulfillers/${callOptions.fulfillerId}` : `/v1/fulfillers`;
-          axiosInstance
-            .request(options)
+          options.url = (callOptions && callOptions.fulfillerId) ? `${self.url}/v1/fulfillers/${callOptions.fulfillerId}` : `${self.url}/v1/fulfillers`;
+          axios(options)
             .then(function (res) {
               subsegment.addMetadata("response", res.data);
               subsegment.close();
