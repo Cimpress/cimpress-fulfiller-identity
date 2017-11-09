@@ -53,7 +53,7 @@ describe("Fulfiller Identity proxy", function () {
 
     it("when authorizer is not provided, attempts to connect without authorization header", function () {
       testedObject = new FulfillerIdentityProxy("dummy.fulfilleridentity.url");
-      return expect(testedObject.callFulfillerIdentity("GET", { fulfillerId: "863d0757-037a-4c9c-a6e1-c91b302c68da" })).be.rejectedWith('401 - "Unauthorized"');
+      return expect(testedObject.callFulfillerIdentity("GET", { fulfillerId: "863d0757-037a-4c9c-a6e1-c91b302c68da" })).be.rejectedWith('"value" required in setHeader("authorization", value)');
     });
 
   });
