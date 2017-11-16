@@ -2,7 +2,7 @@
   "name": "cimpress-fulfiller-identity",
   "version": "0.1.0",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
-  "main": "src/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "grunt test"
   },
@@ -13,6 +13,10 @@
   "keywords": [
     "cimpress",
     "fulfiller"
+  ],
+  "files": [
+    "lib",
+    "src"
   ],
   "author": "Rafał Nowosielski <rafal@nowosielski.email>",
   "license": "Apache-2.0",
@@ -32,11 +36,8 @@
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-exec": "^2.0.0",
     "grunt-mocha-istanbul": "^5.0.2",
     "istanbul": "^0.4.5",
     "load-grunt-tasks": "^3.5.2",

@@ -4,7 +4,8 @@ node_js:
 install:
 - npm install
 script:
-- npm test
+- grunt test
+- grunt build
 deploy:
   provider: npm
   email: rafalnowosielski@me.com
