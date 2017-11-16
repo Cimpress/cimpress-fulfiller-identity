@@ -7,9 +7,8 @@ module.exports = function (grunt) {
        options: {
          sourceMap: true,
          presets: ['es2015']
-
        },
-      dist: {
+       lib: {
         files: {
           'lib/index.js': 'src/index.js',
           'lib/aws_xray_mock.js': 'src/aws_xray_mock.js',
@@ -59,6 +58,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mocha-istanbul');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-babel');
 
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('test', ['jshint', 'mocha_istanbul:coverage', 'istanbul_check_coverage']);
