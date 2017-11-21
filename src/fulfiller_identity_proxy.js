@@ -29,8 +29,8 @@ class FulfillerIdentityProxy {
             timeout: 3000,
             method: method,
             headers: {
-              Authorization: authorization,
-              ContentType: 'application/json'
+              'Authorization': authorization,
+              'Content-Type': 'application/json'
             }
           };
           if (callOptions && callOptions.data) {
