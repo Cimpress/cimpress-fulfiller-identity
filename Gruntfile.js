@@ -9,14 +9,12 @@ module.exports = function (grunt) {
          presets: ['env']
        },
        lib: {
-        files: {
-          'lib/index.js': 'src/index.js',
-          'lib/aws_xray_mock.js': 'src/aws_xray_mock.js',
-          'lib/fulfiller.js': 'src/fulfiller.js',
-          'lib/fulfiller_identity_client.js': 'src/fulfiller_identity_client.js',
-          'lib/fulfiller_identity_proxy.js': 'src/fulfiller_identity_proxy.js',
-          'lib/errors/fulfiller_not_found_error.js': 'src/errors/fulfiller_not_found_error.js',
-        }
+         files: [{
+           expand: true,
+           cwd: 'src/',
+           src: ['*.js'],
+           dest: 'lib/',
+         }],
       }
     },
     mocha_istanbul: {

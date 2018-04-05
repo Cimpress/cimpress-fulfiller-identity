@@ -4,7 +4,9 @@
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "build": "babel src -d lib",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,7 @@
     "axios": "^0.16.2"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-cli": "^6.26.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.24.1",
