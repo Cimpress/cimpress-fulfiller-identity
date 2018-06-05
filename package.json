@@ -1,6 +1,6 @@
 {
   "name": "cimpress-fulfiller-identity",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "./lib/index.js",
   "scripts": {
@@ -32,12 +32,12 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "grunt": "^1.0.1",
-    "grunt-babel": "^6.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
