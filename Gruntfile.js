@@ -47,5 +47,5 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('test', ['jshint', 'mocha_istanbul:coverage', 'istanbul_check_coverage']);
 
-  grunt.registerTask('build', ['jshint', 'babel']);
+  grunt.registerTask('build', ['jshint']);
 };
