@@ -3,20 +3,6 @@
 module.exports = function (grunt) {
 
   grunt.initConfig({
-    babel: {
-       options: {
-         sourceMap: true,
-         presets: ['env']
-       },
-       lib: {
-         files: [{
-           expand: true,
-           cwd: 'src/',
-           src: ['*.js'],
-           dest: 'lib/',
-         }],
-      }
-    },
     mocha_istanbul: {
       coverage: {
         src: ['unit_tests', 'src'],
