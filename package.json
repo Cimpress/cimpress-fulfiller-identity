@@ -39,7 +39,6 @@
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "grunt": "^1.0.1",
-    "grunt-babel": "^6.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-watch": "^1.0.0",
