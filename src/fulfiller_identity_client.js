@@ -1,6 +1,6 @@
 const axios = require('axios');
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
-const AuthenticatorProxy = require("./authenticator_proxy");
+const XRayProxy = require("./xray_proxy");
 const Fulfiller = require("./fulfiller");
 
 const AWSXRayMock = require('./aws_xray_mock');
@@ -22,7 +22,7 @@ class FulfillerIdentityClient {
       throw new Error("The authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
     this.baseUrl = (options && options.url) ? options.url : "fulfilleridentity.trdlnk.cimpress.io";
-    this.authenticatorProxy = new AuthenticatorProxy(this.authorizer, awsXRay);
+    this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
   }
 
   getUrl() {
@@ -39,8 +39,8 @@ class FulfillerIdentityClient {
    * }
    */
   getFulfillers(options) {
-    return this.authenticatorProxy
-      .xRayCapture('FulfillerIdentity.getFulfillers', this._getFulfillers.bind(this), [], options);
+    return this.xrayPRoxy
+      .capturePromise('FulfillerIdentity.getFulfillers', this._getFulfillers.bind(this), [], options);
   }
 
   _getFulfillers(authorization, subsegment, options) {
@@ -74,8 +74,8 @@ class FulfillerIdentityClient {
    * }
    */
   getFulfiller(fulfillerId, options) {
-    return this.authenticatorProxy
-      .xRayCapture('FulfillerIdentity.getFulfillerById', this._getFulfiller.bind(this), [], fulfillerId, options);
+    return this.xrayPRoxy
+      .capturePromise('FulfillerIdentity.getFulfillerById', this._getFulfiller.bind(this), [], fulfillerId, options);
   }
 
   _getFulfiller(authorization, subsegment, fulfillerId, options) {
@@ -102,8 +102,8 @@ class FulfillerIdentityClient {
    * @param fulfiller Fufiller object, either retrieved via getFulfiller or getFulfillers or using new Fulfiller statement
    */
   saveFulfiller(fulfiller) {
-    return this.authenticatorProxy
-      .xRayCapture('FulfillerIdentity.saveFulfiller', this._saveFulfiller.bind(this), [], fulfiller);
+    return this.xrayPRoxy
+      .capturePromise('FulfillerIdentity.saveFulfiller', this._saveFulfiller.bind(this), [], fulfiller);
   }
 
   _saveFulfiller(authorization, subsegment, fulfiller) {

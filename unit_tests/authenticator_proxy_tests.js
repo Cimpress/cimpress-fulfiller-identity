@@ -2,22 +2,22 @@
 
 const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
-const AuthenticatorProxy = require("../src/authenticator_proxy");
+const XRayProxy = require("../src/xray_proxy");
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-describe("AuthenticatorProxy", function () {
+describe("XRayProxy", function () {
 
   this.timeout(10000);
 
-  describe("xRayCapture", function () {
+  describe("capturePromise", function () {
 
     it("It's correctly wrapped", function (done) {
       const annotations = []
       let token = "Bearer e2bce1a36815415fac1674e645502547"
       let xrayMock = require('../src/aws_xray_mock');
-      let proxy = new AuthenticatorProxy({ getAuthorization: () => Promise.resolve(token) }, xrayMock);
+      let proxy = new XRayProxy({ getAuthorization: () => Promise.resolve(token) }, xrayMock);
       let promiseCalled = false
       let promise = (authorization, subsegment, myVar, myVar2) => {
         promiseCalled = true
@@ -30,7 +30,7 @@ describe("AuthenticatorProxy", function () {
       }
 
       proxy
-        .xRayCapture("MySegment", promise, annotations, "ABC", 1234)
+        .capturePromise("MySegment", promise, annotations, "ABC", 1234)
         .then(result => {
           expect(promiseCalled).to.equals(true);
           expect(result).to.equals("OK");
@@ -43,11 +43,11 @@ describe("AuthenticatorProxy", function () {
       const annotations = []
       let token = "Bearer e2bce1a36815415fac1674e645502547"
       let xrayMock = require('../src/aws_xray_mock');
-      let proxy = new AuthenticatorProxy({ getAuthorization: () => Promise.resolve("") }, xrayMock);
+      let proxy = new XRayProxy({ getAuthorization: () => Promise.resolve("") }, xrayMock);
       let promise = () => Promise.reject("KO")
 
       proxy
-        .xRayCapture("MySegment", promise, annotations, "ABC", 1234)
+        .capturePromise("MySegment", promise, annotations, "ABC", 1234)
         .then(result => { })
         .catch(err => {
           expect(err).to.equals("KO");
@@ -78,10 +78,10 @@ describe("AuthenticatorProxy", function () {
           return arg;
         }
       };
-      let proxy = new AuthenticatorProxy({ getAuthorization: () => Promise.resolve(token) }, xrayMock);
+      let proxy = new XRayProxy({ getAuthorization: () => Promise.resolve(token) }, xrayMock);
       let promise = (authorization, subsegment, myVar, myVar2) => Promise.resolve("OK")
       proxy
-        .xRayCapture("MySegment", promise, annotations, "ABC", 1234)
+        .capturePromise("MySegment", promise, annotations, "ABC", 1234)
         .then(result => {
         })
     });
