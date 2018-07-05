@@ -2,6 +2,7 @@ const axios = require('axios');
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
 const XRayProxy = require("./xray_proxy");
 const Fulfiller = require("./fulfiller");
+const FulfillerContact = require("./fulfillerContact");
 
 const AWSXRayMock = require('./aws_xray_mock');
 
@@ -95,6 +96,39 @@ class FulfillerIdentityClient {
       .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
         new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
         new Error("Unable to get fulfiller: " + err.message)));
+  }
+
+
+  /**
+   * Returns an array of fulfiller objects that meet the criteria expesses in options
+   * @param fulfillerId Id of the fulfiller to retrieve
+   * @param options Criteria for the query
+   * {
+   * noCache: boolean
+   * }
+   */
+  getFulfillerContacts(fulfillerId, options) {
+    return this.xrayPRoxy
+      .capturePromise('FulfillerIdentity.getFulfillerContacts', this._getFulfillerContacts.bind(this), [], fulfillerId, options);
+  }
+
+  _getFulfillerContacts(authorization, subsegment, fulfillerId, options) {
+
+    if (options && options.noCache)
+      queryParameters.push(`noCache=${Math.random()}`);
+
+    const url = `${this.baseUrl}/v1/fulfillers/${fulfillerId}/contacts${options && options.noCache ? `?noCache=${Math.random()}` : ""}`;
+
+    subsegment.addAnnotation("FulfillerId", fulfillerId);
+    return this.makeRequest(authorization, 'GET', url)
+      .then(res => {
+        subsegment.addMetadata("response", res.data);
+        return res.data;
+      })
+      .then(parsedBody => parsedBody.map(f => new FulfillerContact(f.id, f.createdAt, f.createdBy, f.defaultContact, f.email, f.language, f.name, f.phone, f.technicalContact, f.links)))
+      .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
+        new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
+        new Error("Unable to get fulfiller contacts: " + err.message)));
   }
 
   /**
