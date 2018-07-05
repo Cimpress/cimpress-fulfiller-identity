@@ -144,7 +144,7 @@ class FulfillerContact {
   getFulfillerUrl() {
     return this._links && this._links.fulfiller ? this._links.fulfiller.href : null;
   }
-
+  
   toJSON() {
     return {
       id: this._id,

@@ -93,6 +93,30 @@ fulfillerIdentity.getFulfiller(fulfillerId, options) // Returns a promise which 
 ```
 
 
+```
+const options = {
+    noCache: boolean // Invalidates the cache when is set to true    
+}
+const fulfillerId = "a3efe4wef"
+
+fulfillerIdentity.getFulfillerContacts(fulfillerId, options) // Returns a promise which resolves the fulfiller passed by 
+.then(fulfillerContact => {
+        console.log(fulfillerContact.id);
+        console.log(fulfillerContact.createdAt)
+        console.log(fulfillerContact.createdBy)
+        console.log(fulfillerContact.defaultContact)
+        console.log(fulfillerContact.email)
+        console.log(fulfillerContact.language)
+        console.log(fulfillerContact.name)
+        console.log(fulfillerContact.phone)
+        console.log(fulfillerContact.technicalContact)
+        console.log(fulfillerContact.getContactUrl())
+        console.log(fulfillerContact.getFulfillerUrl())
+}
+
+```
+
+
 
 ```
 const fulfiller = new Fulfiller(fulfillerId, internalFulfillerId, name, email, phone, language, links)
