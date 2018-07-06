@@ -118,6 +118,14 @@ class Fulfiller {
     return this._links && this._links.fulfillerLogo ? this._links.fulfillerLogo.href : null;
   }
 
+  getFulfillerContactsUrl() {
+    return this._links && this._links.fulfillerContacts ? this._links.fulfillerContacts.href : null;
+  }
+
+  getFulfillerFulfillmentLocationsUrl() {
+    return this._links && this._links.fulfillmentLocations ? this._links.fulfillmentLocations.href : null;
+  }
+
   toJSON() {
     return {
       fulfillerId: this.fulfillerId,
