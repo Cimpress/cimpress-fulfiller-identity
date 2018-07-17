@@ -25,9 +25,10 @@ class XRayProxy {
             resolve(this.authenticator
               .getAuthorization()
               .then(authorization => {
+                const args = Object.keys(arguments).map(a => arguments[a]);
                 annotations
                   .forEach(annotation => subsegment.addAnnotation(annotation.key, annotation.value));
-                return promise(authorization, subsegment, ...Object.values(arguments).slice(3));
+                return promise(authorization, subsegment, ...args.slice(3));
               })
               .then(result => {
                 subsegment.close();
