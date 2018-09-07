@@ -119,7 +119,8 @@ fulfillerIdentity.getFulfillerContacts(fulfillerId, options) // Returns a promis
 
 
 ```
-const fulfiller = new Fulfiller(fulfillerId, internalFulfillerId, name, email, phone, language, links, archived=false)
+const fulfiller = new Fulfiller(fulfillerId, internalFulfillerId, name, email, phone, language, links) // It will be not archived by default
+const fulfiller = new Fulfiller(fulfillerId, internalFulfillerId, name, email, phone, language, links, archived)
 
 fulfillerIdentity.saveFulfiller(fulfiller) // Creates or updates a fulfiller
 
