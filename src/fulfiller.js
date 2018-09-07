@@ -3,14 +3,14 @@
  */
 class Fulfiller {
 
-  constructor(fulfillerId, internalFulfillerId, name, email, phone, language, links) {
+  constructor(fulfillerId, internalFulfillerId, name, email, phone, language, links, archived = false) {
     this._fulfillerId = fulfillerId;
     this._internalFulfillerId = internalFulfillerId;
     this._name = name;
     this._email = email;
     this._phone = phone;
     this._language = language;
-    this._archived = false;
+    this._archived = archived || false;
     this._links = links;
   }
 

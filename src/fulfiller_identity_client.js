@@ -62,7 +62,7 @@ class FulfillerIdentityClient {
         subsegment.addMetadata("response", res.data);
         return res.data;
       })
-      .then(parsedBody => parsedBody.map(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links)))
+      .then(parsedBody => parsedBody.map(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links, f.archived)))
       .catch((err) => Promise.reject(new Error("Unable to get fulfillers: " + err.message)));
   }
 
@@ -92,7 +92,7 @@ class FulfillerIdentityClient {
         subsegment.addMetadata("response", res.data);
         return res.data;
       })
-      .then(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links))
+      .then(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links, f.archived))
       .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
         new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
         new Error("Unable to get fulfiller: " + err.message)));
