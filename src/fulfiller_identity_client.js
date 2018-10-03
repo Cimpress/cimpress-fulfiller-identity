@@ -114,9 +114,6 @@ class FulfillerIdentityClient {
 
   _getFulfillerContacts(authorization, subsegment, fulfillerId, options) {
 
-    if (options && options.noCache)
-      queryParameters.push(`noCache=${Math.random()}`);
-
     const url = `${this.baseUrl}/v1/fulfillers/${fulfillerId}/contacts${options && options.noCache ? `?noCache=${Math.random()}` : ""}`;
 
     subsegment.addAnnotation("FulfillerId", fulfillerId);
