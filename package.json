@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Cimpress-MCP/cimpress-fulfiller-identity#readme",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "axios-retry": "^3.1.1"
   },
   "devDependencies": {
