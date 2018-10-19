@@ -1,6 +1,6 @@
 {
   "name": "cimpress-fulfiller-identity",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "./lib/index.js",
   "scripts": {
@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/Cimpress-MCP/cimpress-fulfiller-identity#readme",
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.18.0",
+    "axios-retry": "^3.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

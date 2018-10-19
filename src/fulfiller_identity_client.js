@@ -1,4 +1,5 @@
 const axios = require('axios');
+const axiosRetry = require('axios-retry');
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
 const XRayProxy = require("./xray_proxy");
 const Fulfiller = require("./fulfiller");
@@ -24,6 +25,11 @@ class FulfillerIdentityClient {
     }
     this.baseUrl = (options && options.url) ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
+    
+    axiosRetry(axios, {
+        retries: options.retries && options.retries >= 0 ? options.retries : 3,
+        retryDelay: retryCount => options.retryDelayInMs && options.retryDelayInMs >= 0 ? options.retryDelayInMs : 1000
+    });
   }
 
   getUrl() {
