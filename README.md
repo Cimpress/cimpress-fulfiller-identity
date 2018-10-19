@@ -23,7 +23,9 @@ or
 
 const options = {
    AWSXRay: aws-xray-sdk, // AWS X-Ray SDK
-   url: string // Base url of the service, by default it will be fulfilleridentity.trdlnk.cimpress.io
+   url: 'string', // Base url of the service, by default it will be fulfilleridentity.trdlnk.cimpress.io
+   retries: 3, // By default there are 3 retries
+   retryDelayInMs: 1000 //Default: 1000
 }
 const authorization = null || string || function, // Used to authorize the requests.
 
