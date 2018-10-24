@@ -27,8 +27,8 @@ class FulfillerIdentityClient {
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
     
     axiosRetry(axios, {
-        retries: options.retries && options.retries >= 0 ? options.retries : 3,
-        retryDelay: retryCount => options.retryDelayInMs && options.retryDelayInMs >= 0 ? options.retryDelayInMs : 1000
+        retries: options && options.retries && options.retries >= 0 ? options.retries : 3,
+        retryDelay: retryCount => options && options.retryDelayInMs && options.retryDelayInMs >= 0 ? options.retryDelayInMs : 1000
     });
   }
 
