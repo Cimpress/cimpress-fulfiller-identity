@@ -12,8 +12,12 @@ const AWSXRayMock = require('./aws_xray_mock');
  */
 class FulfillerIdentityClient {
 
-  constructor(authorization, options) {
-    const awsXRay = (options && options.AWSXRay) ? options.AWSXRay : AWSXRayMock;
+  constructor(authorization, clientOptions) {
+    const options = clientOptions || {};
+    const awsXRay = options.AWSXRay ? options.AWSXRay : AWSXRayMock;
+    const retries = parseInt(options.retries, 10);
+    const retryDelayInMs = parseInt(options.retryDelayInMs, 10);
+
     if (typeof authorization === "undefined") {
       this.authorizer = { getAuthorization: () => Promise.resolve("") };
     } else if (typeof authorization === "string") {
@@ -23,12 +27,12 @@ class FulfillerIdentityClient {
     } else {
       throw new Error("The authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
-    this.baseUrl = (options && options.url) ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
+    this.baseUrl = options.url ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
     
     axiosRetry(axios, {
-        retries: options.retries && options.retries >= 0 ? options.retries : 3,
-        retryDelay: retryCount => options.retryDelayInMs && options.retryDelayInMs >= 0 ? options.retryDelayInMs : 1000
+        retries: retries >= 0 ? retries : 3,
+        retryDelay: retryCount => retryDelayInMs >= 0 ? retryDelayInMs : 1000
     });
   }
 
