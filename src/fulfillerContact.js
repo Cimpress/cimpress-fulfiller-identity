@@ -66,7 +66,7 @@ class FulfillerContact {
   }
 
   /**
-   * Returns if the contact is technical or not
+   * Returns if the contact is business or not
    * @returns {*}
    */
   get businessContact() {
@@ -74,7 +74,7 @@ class FulfillerContact {
   }
 
   /**
-   * Returns if the contact is technical or not
+   * Returns if the contact is operational support or not
    * @returns {*}
    */
   get operationalSupportContact() {
@@ -139,7 +139,7 @@ class FulfillerContact {
   }
 
   /***
-   * Gets the fulfiller perferred language
+   * Gets the fulfiller preferred language
    * @returns {*}
    */
   get language() {
@@ -153,7 +153,6 @@ class FulfillerContact {
   set language(value) {
     this._language = value;
   }
-
 
   getContactUrl() {
     return this._links && this._links.self ? this._links.self.href : null;
