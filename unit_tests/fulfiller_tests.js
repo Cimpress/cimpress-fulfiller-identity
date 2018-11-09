@@ -1,7 +1,5 @@
 'use strict';
 
-const sinon = require("sinon");
-const nock = require('nock');
 const chai = require('chai');
 const expect = chai.expect;
 const Fulfiller = require("../src/fulfiller");

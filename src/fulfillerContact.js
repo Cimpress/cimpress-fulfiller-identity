@@ -2,7 +2,7 @@
  * Objects of fulfiller class are either required or returned by the methods of the FulfillerIdentityClient.
  */
 class FulfillerContact {
-  constructor(id, createdAt, createdBy, defaultContact, email, language, name, phone, technicalContact, links) {
+  constructor(id, createdAt, createdBy, defaultContact, email, language, name, phone, technicalContact, businessContact, operationalSupportContact, links) {
     this._id = id;
     this._createdAt = createdAt;
     this._createdBy = createdBy;
@@ -12,6 +12,8 @@ class FulfillerContact {
     this._name = name;
     this._phone = phone;
     this._technicalContact = technicalContact;
+    this._operationalSupportContact = operationalSupportContact;
+    this._businessContact = businessContact;
     this._links = links;
   }
 
@@ -61,6 +63,22 @@ class FulfillerContact {
    */
   get technicalContact() {
     return this._technicalContact;
+  }
+
+  /**
+   * Returns if the contact is technical or not
+   * @returns {*}
+   */
+  get businessContact() {
+      return this._businessContact;
+  }
+
+  /**
+   * Returns if the contact is technical or not
+   * @returns {*}
+   */
+  get operationalSupportContact() {
+      return this._operationalSupportContact;
   }
 
   /**
@@ -136,7 +154,7 @@ class FulfillerContact {
     this._language = value;
   }
 
- 
+
   getContactUrl() {
     return this._links && this._links.self ? this._links.self.href : null;
   }
@@ -144,7 +162,7 @@ class FulfillerContact {
   getFulfillerUrl() {
     return this._links && this._links.fulfiller ? this._links.fulfiller.href : null;
   }
-  
+
   toJSON() {
     return {
       id: this._id,
@@ -155,7 +173,9 @@ class FulfillerContact {
       language: this._language,
       name: this._name,
       phone: this._phone,
-      technicalContact: this._technicalContact
+      technicalContact: this._technicalContact,
+      businessContact: this._businessContact,
+      operationalSupportContact: this._operationalSupportContact
     };
   }
 }
