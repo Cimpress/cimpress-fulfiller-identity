@@ -112,6 +112,8 @@ fulfillerIdentity.getFulfillerContacts(fulfillerId, options) // Returns a promis
         console.log(fulfillerContact.name)
         console.log(fulfillerContact.phone)
         console.log(fulfillerContact.technicalContact)
+        console.log(fulfillerContact.businessContact)
+        console.log(fulfillerContact.operationalSupportContact)
         console.log(fulfillerContact.getContactUrl())
         console.log(fulfillerContact.getFulfillerUrl())
 }

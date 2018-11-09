@@ -29,7 +29,7 @@ class FulfillerIdentityClient {
     }
     this.baseUrl = options.url ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
-    
+
     axiosRetry(axios, {
         retries: retries >= 0 ? retries : 3,
         retryDelay: retryCount => retryDelayInMs >= 0 ? retryDelayInMs : 1000
@@ -132,7 +132,7 @@ class FulfillerIdentityClient {
         subsegment.addMetadata("response", res.data);
         return res.data;
       })
-      .then(parsedBody => parsedBody.map(f => new FulfillerContact(f.id, f.createdAt, f.createdBy, f.defaultContact, f.email, f.language, f.name, f.phone, f.technicalContact, f.links)))
+      .then(parsedBody => parsedBody.map(f => new FulfillerContact(f.id, f.createdAt, f.createdBy, f.defaultContact, f.email, f.language, f.name, f.phone, f.technicalContact, f.businessContact, f.operationalSupportContact, f.links)))
       .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
         new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
         new Error("Unable to get fulfiller contacts: " + err.message)));
