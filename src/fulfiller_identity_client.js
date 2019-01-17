@@ -27,7 +27,7 @@ class FulfillerIdentityClient {
     } else {
       throw new Error("The authorization should be either a string, a function that returns a string, or a function that returns a Promise");
     }
-    this.timeout = options.timeout ? options.timeout || 3000;
+    this.timeout = options.timeout ? options.timeout : 3000;
     this.baseUrl = options.url ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
 
