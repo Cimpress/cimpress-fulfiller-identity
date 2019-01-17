@@ -32,7 +32,8 @@ class FulfillerIdentityClient {
 
     axiosRetry(axios, {
         retries: retries >= 0 ? retries : 3,
-        retryDelay: retryCount => retryDelayInMs >= 0 ? retryDelayInMs : 1000
+        retryDelay: retryCount => retryDelayInMs >= 0 ? retryDelayInMs : 1000,
+        shouldResetTimeout: true
     });
   }
 
