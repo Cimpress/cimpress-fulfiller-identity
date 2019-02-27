@@ -1,7 +1,7 @@
 class FulfillerNotFoundError extends Error {
     constructor(...args) {
-        super(...args)
-        this.name = 'FulfillerNotFoundError'
+        super(...args);
+        this.name = 'FulfillerNotFoundError';
     }
 }
 
