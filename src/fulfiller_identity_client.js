@@ -1,6 +1,7 @@
 const axios = require('axios');
 const axiosRetry = require('axios-retry');
 const FulfillerNotFoundError = require("./errors/fulfiller_not_found_error");
+const ForbiddenError = require("./errors/forbidden_error");
 const XRayProxy = require("./xray_proxy");
 const Fulfiller = require("./fulfiller");
 const FulfillerContact = require("./fulfillerContact");
@@ -105,9 +106,15 @@ class FulfillerIdentityClient {
         return res.data;
       })
       .then(f => new Fulfiller(f.fulfillerId, f.internalFulfillerId, f.name, f.email, f.phone, f.language, f.links, f.archived))
-      .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
-        new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
-        new Error("Unable to get fulfiller: " + err.message)));
+      .catch((err) => {
+        if (err.response && err.response.status === 403) {
+          return Promise.reject(new ForbiddenError(`You are forbidden from reading the details of fulfiller ${fulfillerId}`));
+        } else if (err.response && err.response.status === 404) {
+          return Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exist`));
+        }
+
+        return Promise.reject(new Error("Unable to get fulfiller: " + err.message));
+      });
   }
 
 
@@ -135,9 +142,15 @@ class FulfillerIdentityClient {
         return res.data;
       })
       .then(parsedBody => parsedBody.map(f => new FulfillerContact(f.id, f.createdAt, f.createdBy, f.defaultContact, f.email, f.language, f.name, f.phone, f.technicalContact, f.businessContact, f.operationalSupportContact, f.links)))
-      .catch((err) => Promise.reject(err.response && err.response.status === 404 ?
-        new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exits`) :
-        new Error("Unable to get fulfiller contacts: " + err.message)));
+      .catch((err) => {
+        if (err.response && err.response.status === 403) {
+          return Promise.reject(new ForbiddenError(`You are forbidden from reading the details of fulfiller ${fulfillerId}`));
+        } else if (err.response && err.response.status === 404) {
+          return Promise.reject(new FulfillerNotFoundError(`Fulfiller ${fulfillerId} does not exist`));
+        }
+
+        return Promise.reject(new Error("Unable to get fulfiller contacts: " + err.message));
+      });
   }
 
   /**
