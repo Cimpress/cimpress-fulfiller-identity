@@ -120,7 +120,7 @@ describe("Fulfiller Identity Client", function () {
 
     it("indicates that fulfiller doesn't exist", function () {
       testedObject = new FulfillerIdentityClient("Bearer e2bce1a36815415fac1674e645502547", { url: "https://dummy.fulfilleridentity.url" });
-      return expect(testedObject.getFulfiller(2131324134)).to.be.rejectedWith(FulfillerNotFoundError, "Fulfiller 2131324134 does not exits");
+      return expect(testedObject.getFulfiller(2131324134)).to.be.rejectedWith(FulfillerNotFoundError, "Fulfiller 2131324134 does not exist");
     });
 
   });
