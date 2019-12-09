@@ -1,8 +1,9 @@
 {
   "name": "cimpress-fulfiller-identity",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Thin client library for Cimpress' Fulfiller Identity service",
   "main": "./lib/index.js",
+  "typings": "./index.d.ts",
   "scripts": {
     "test": "grunt test",
     "build": "babel src -d lib",
