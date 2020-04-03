@@ -93,7 +93,7 @@ class FulfillerIdentityClient {
   }
 
   _getFulfiller(authorization, subsegment, fulfillerId, options) {
-
+    let queryParameters = [];
     if (options && options.noCache)
       queryParameters.push(`noCache=${Math.random()}`);
 
