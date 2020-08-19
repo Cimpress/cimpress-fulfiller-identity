@@ -2,6 +2,7 @@ interface FulfillerIdentityClientOptions {
   AWSXRay?: Function;
   retries?: number;
   retryDelayInMs?: number;
+  retryOnTimeouts?: boolean;
   timeout?: number;
   url?: string;
 }

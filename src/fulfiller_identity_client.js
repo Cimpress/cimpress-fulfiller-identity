@@ -18,6 +18,7 @@ class FulfillerIdentityClient {
     const awsXRay = options.AWSXRay ? options.AWSXRay : AWSXRayMock;
     const retries = parseInt(options.retries, 10);
     const retryDelayInMs = parseInt(options.retryDelayInMs, 10);
+    const retryOnTimeouts = options.retryOnTimeouts || false;
 
     if (typeof authorization === "undefined") {
       this.authorizer = { getAuthorization: () => Promise.resolve("") };
@@ -32,10 +33,15 @@ class FulfillerIdentityClient {
     this.baseUrl = options.url ? options.url : "https://fulfilleridentity.trdlnk.cimpress.io";
     this.xrayPRoxy = new XRayProxy(this.authorizer, awsXRay);
 
+    const retryCondition = retryOnTimeouts ?
+      err => err.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(err) :
+      axiosRetry.isNetworkOrIdempotentRequestError;
+
     axiosRetry(axios, {
         retries: retries >= 0 ? retries : 3,
         retryDelay: retryCount => retryDelayInMs >= 0 ? retryDelayInMs : 1000,
-        shouldResetTimeout: true
+        shouldResetTimeout: true,
+        retryCondition: retryCondition
     });
   }
 
